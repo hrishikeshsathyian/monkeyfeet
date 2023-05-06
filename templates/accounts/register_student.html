@@ -305,6 +305,11 @@ ul.form-stepper li a .form-stepper-circle {
                                     </div>
                                     
                                 </div>
+                                <div hidden>
+                                   
+                                    {{student_form.latitude}}
+                                    {{student_form.longitude}}
+                                </div>
                             </div>
                             <div class="mt-3">
                                 <button class=" button btn-navigate-form-step" type="button" step_number="2">Next</button>
@@ -474,6 +479,8 @@ document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn)
     });
 });
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initAutoComplete" async defer></script>
+<script src="{% static 'js/custom.js'%}"></script>
 
 </body>
 </html>

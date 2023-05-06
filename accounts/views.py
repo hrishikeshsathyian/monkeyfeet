@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm,StudentForm
+from .forms import UserForm,StudentForm,TutorForm
 from .models import User
 from student.models import Student
+from tutors.models import Tutor
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.utils.http import urlsafe_base64_decode
@@ -38,7 +39,27 @@ def login(request):
 
 # register new user as a tutor
 def register_tutor(request):
-    return render(request,'accounts/register_tutor.html')
+    user_form = UserForm()
+    tutor_form = TutorForm()
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        tutor_form = TutorForm(request.POST,request.FILES)
+        if user_form.is_valid() and tutor_form.is_valid():
+            password = user_form.cleaned_data['password']
+            user = user_form.save(commit=False)
+            user.role = User.TUTOR
+            user.set_password(password)
+            user.save()
+            instance = Tutor.objects.get(user=user)
+            tutor = TutorForm(request.POST,request.FILES,instance=instance)
+            tutor.save()
+            send_account_activation_email(request,user)
+            messages.success(request,'Tutor Account has successfully been created! Please click the link in your email to verify your account!')
+    context = {
+        'user_form': user_form,
+        'tutor_form': tutor_form,
+    }
+    return render(request,'accounts/register_tutor.html',context)
 
 # register new user as a student
 def register_student(request):
@@ -54,10 +75,10 @@ def register_student(request):
             user.set_password(password)
             user.save()
             instance = Student.objects.get(user=user)
-            student = StudentForm(request.POST,request.FILES,instance=instance)
+            student = StudentForm(request.POST,request.FILES,instance=instance) # prevents a new student object from being created
             student.save()
             send_account_activation_email(request,user)
-            messages.success(request,'Account has been successfully created!An email has been sent to you for verification')
+            messages.success(request,'Student Account has successfully been created! Please click the link in your email to verify your account!')
             return redirect('login')
         else:
             print(user_form.errors)

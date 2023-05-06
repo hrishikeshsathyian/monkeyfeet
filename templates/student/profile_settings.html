@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %} 
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-10 text-center">
+                  <h3 style="
+                  
+                  text-shadow: 2px 2px 0px rgba(0,0,0,0.2)">Profile Settings</h3>
+                </div>
+              </div>
+              <form action="{% url 'profile_settings' %}" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                    <hr class="my-4" />
+                    <h5 style="color: #4361ee;">Personal Information</h5>
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="{% if student.profile_picture %}{{student.profile_picture.url}}{% else %}{% static 'images/person_5.jpg' %}{% endif %}" alt="" class="img-fluid rounded-circle border border-dark border-3" style="min-width:100%;
+                                min-height:100%;width: auto;border-color: black !important;">
+                            </div>
+                            <div class="form-group col-7">
+                                <label for="formFile" class="form-label" style="font-weight: 640;">Profile Picture</label>
+                                <br>
+                                <input hidden class="form-control" type="file" id="real_file"  name="profile_picture">
+                                <button type="button" id="custom_button" class="btn btn-outline-primary" style="--bs-btn-color: #4361ee;
+                                --bs-btn-border-color: #4361ee !important;
+                                --bs-btn-hover-color: #fff;
+                                --bs-btn-hover-bg: #4361ee !important;
+                                --bs-btn-hover-border-color: #4361ee !important;
+                                --bs-btn-focus-shadow-rgb: 13,110,253;
+                                --bs-btn-active-color: #fff;
+                                --bs-btn-active-bg: #4361ee !important;
+                                --bs-btn-active-border-color: #4361ee !important;
+                                --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+                                --bs-btn-disabled-color: #4361ee !important;
+                                --bs-btn-disabled-bg: transparent;
+                                --bs-btn-disabled-border-color: #4361ee !important;
+                                --bs-gradient: none;">Change Profile Photo</button><p class="small" id="custom_text">No File Chosen, Yet</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                              <label for="inputEmail4" style="font-weight: 640;">First Name*</label>
+                              {{user_form.first_name}}
+                              {{user_form.first_name.errors}}
+                            </div>
+                            <div class="form-group col-md-3">
+                              <label for="inputPassword4" style="font-weight: 640;">Last Name*</label>
+                              {{user_form.last_name}}
+                              {{user_form.last_name.errors}}
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="inputPassword4" style="font-weight: 640;">Email Address*</label>
+                                {{user_form.email}}
+                                {{user_form.email.errors}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                              <label for="inputEmail4" style="font-weight: 640;">Username*</label>
+                              {{user_form.username}}
+                              {{ user_form.username.errors }}
+                            </div>
+                            
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4" style="font-weight: 640;">Phone Number*</label>
+                                {{user_form.phone_number}}
+                                {{user_form.phone_number.errors}}
+                              </div>
+                              <div class="form-group col-md-2">
+                                <label for="inputPassword4" style="font-weight: 640;">Gender*</label>
+                                {{student_form.gender}}
+                                {{student_form.gender.errors}}
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputPassword4" style="font-weight: 640;">Date of Birth*</label>
+                                {{student_form.dob}}
+                                {{student_form.dob.errors}}
+                              </div>
+                        </div>
+                    </div>
+                  
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                              <label for="inputEmail4" style="font-weight: 640;">Address*</label>
+                              {{student_form.address}}
+                              {{student_form.address.errors}}
+                              <small class="text-muted">Your address will not be shared and will only be used to find tutors near you!</small>
+                            </div>
+                            <div class="form-group col-md-2">
+                              <label for="inputPassword4" style="font-weight: 640;">Zip Code*</label>
+                              {{student_form.zip_code}}
+                              {{student_form.zip_code.errors}}
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div hidden>
+                        {{user_form.password}}
+                        {{user_form.confirm_password}}
+                        {{student_form.latitude}}
+                        {{student_form.longitude}}
+                    </div>
+                    <hr class="my-4" />
+                    <h5 style="color: #4361ee;">Tutoring Preferences</h5>
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                              <label for="inputEmail4" style="font-weight: 640;">Preferred Gender of Tutor*</label>
+                              {{student_form.preferred_gender}}
+                              {{student_form.preferred_gender.errors}}
+                            </div>
+                                                               
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        
+                    </div>
+                    
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="form-group col-md-7">
+                              <label for="inputEmail4" style="font-weight: 640;">Subjects Wanted*</label>
+                              <br>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input select_type" type="radio" name="flexRadioDefault" id="primary" checked >
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                  Primary
+                                </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input select_type" type="radio" name="flexRadioDefault" id="secondary">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                  Secondary
+                                </label>
+                              </div>
+                              <div class="card">
+                                <div class="card-body" style="background-color: #EFEFEF;">
+                                    {{student_form.subjects|as_crispy_field}}
+                                </div>
+                              </div>
+                              
+                            </div>
+                                                               
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                              <label for="inputEmail4" style="font-weight: 640;">Preferred Level of Tutor*</label>
+                              {{student_form.preferred_tutor_level|as_crispy_field}}
+                            </div>
+                                                               
+                        </div>
+                    </div>
+                    <hr class="my-4" />
+                    <h5 style="color: #4361ee;" >Additional Information</h5>
+                    <div class="mt-3">
+                        <div class="mt-3">
+                            <div class="row">
+                                <div class="form-group col-md-9">
+                                  <label for="inputEmail4" style="font-weight: 640;">Anything Else To Be Noted?</label>
+                                  {{student_form.additional_information}}
+                                </div>
+                                                                   
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="button btn btn-primary float-right" style="background-color:#4361ee;;">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+
+    <script>
+      const realFileBtn = document.getElementById('real_file')
+      const customBtn = document.getElementById('custom_button')
+      const customTxt = document.getElementById('custom_text')
+
+      customBtn.addEventListener('click',function(){
+        realFileBtn.click()
+
+      })
+      realFileBtn.addEventListener('change',function(){
+        if (realFileBtn.value){
+          customTxt.innerHTML = realFileBtn.value;
+
+        }else{
+          customTxt.innerHTML = 'No File Chosen, Yet'
+        }
+      })
+    </script>
+
+{% endblock %}

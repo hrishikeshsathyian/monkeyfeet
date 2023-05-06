@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'student',
     'crispy_forms',
     'crispy_bootstrap5',
+    'assignments',
+    'tutors',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -57,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'monkeytutor.urls'
-
+GOOGLE_API_KEY = 'AIzaSyBAVzoXzzDkDZqlzpzjNKj_h8PCK0Zd_Ds'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -69,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.get_google_api',
             ],
         },
     },
@@ -150,3 +153,5 @@ EMAIL_HOST_PASSWORD="nlvp jwcl vmxa tofx"
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'MonkeyTutor <hrishikeshsathyiancoding@gmail.com>'
 # values can be stored securely in the .env file
+
+

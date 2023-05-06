@@ -1,0 +1,168 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-10 text-center">
+        <h3 style="
+        
+        text-shadow: 2px 2px 0px rgba(0,0,0,0.2)">Assignments</h3>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+            
+            Existing Assignments
+           </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            </svg>
+            Post New Assignment
+          </button>
+        </li>
+        
+        
+    </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="clearfix tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+          
+          {% if assignments %}
+          {% for assignment in assignments %}
+          <div class="card card-body col-lg-8 my-2" id="{{assignment.unique_id}}">
+            <div class="media">
+
+                <div class="media-body">
+                    <h6 class="media-title font-weight-semibold">
+                        Assignment Code: {{assignment.unique_id|truncatechars:8 }} || <span class="text-muted">{{assignment.subject}}</span>
+                        <span class="float-right">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash delete_assignment" data-id="{{assignment.unique_id}}" data-url="{% url 'delete_assignment' assignment.unique_id %}" viewBox="0 0 16 16">
+                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
+                          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
+                          </svg>
+                        </span>
+                    </h6>
+
+                    <ul class="list-inline list-inline-dotted mb-0 mb-lg-2">
+                        
+                        <li class="list-inline-item"><b style="font-weight: 640;">Location:</b> {{assignment.address}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Preferred Tutor Gender:</b> {{assignment.preferred_gender}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Preferred Tutor Level:</b> {% for i in assignment.preferred_tutor_level.all %}{{i}}, {% endfor %}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Hourly Rate:</b> ${{assignment.hourly_rate}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Additional Information:</b> {{assignment.additional_information}}</li>
+
+
+                    </ul>
+
+                    
+                    
+                    <h5 class="mb-0"><b style="color:#4361ee">0</b> tutors interested</h5>
+                </div>
+
+                
+            </div>
+          </div>
+          {% endfor %}
+          {% else%}
+          <h6 class="mt-4">You currently have <b>0</b> existing assignments. Head on over to the Post New Assignment tab to create one now !</h6>
+          {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class="clearfix tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+             
+          <div class="card col-lg-7 my-2">
+            <div class="card-body">
+              <div class="card-title mb-3"><h6>CREATE NEW ASSIGNMENT</h6></div>
+              <form method="POST" action="{% url 'assignments' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-lg-6 mb-3">
+                    <label for="name" class="form-label">Student*</label>
+                    <input readonly type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" value="{{student.user.first_name}} {{student.user.last_name}}">
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <label for="address" class="form-label">Location*</label>
+                    <input readonly type="text" class="form-control" id="address" name="address" aria-describedby="emailHelp" value="{{student.address}}">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 mb-3">
+                    <label for="preferred_gender" class="form-label">Preferred Tutor Gender*</label>
+                    <input readonly type="text" class="form-control" id="preferred_gender" name="preferred_gender" aria-describedby="emailHelp" value="{{student.preferred_gender}}">
+                  </div>
+                  <div class="col-lg-8 mb-3">
+                    <label for="preferred_tutor_level" class="form-label">Preferred Tutor Level*</label>
+                    <input readonly type="text" class="form-control" id="preferred_tutor_level" name="preferred_tutor_level" aria-describedby="emailHelp" value="{% for i in student.preferred_tutor_level.all %}{{i}}, {% endfor %}">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 mb-3">
+                    <label for="additional_information" class="form-label">Additional Information*</label>
+                    {{form.additional_information}}
+                  </div>
+                  
+                </div>
+                <div class="mt-0">
+                  <div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="inputEmail4">Subject</label>
+                        {{form.subject}}
+                        {{form.subject.errors}}
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputPassword4">Hourly Rate</label>
+                        {{form.hourly_rate}}
+                        {{form.hourly_rate.errors}}
+                      </div>
+                  </div>
+              </div>
+              <small class="text-muted">*Disabled fields are autofilled based on profile settings. To change them, edit profile settings!</small>
+              <br>
+              <button type="submit" class="btn btn-primary float-right mt-2" style="background-color:#4361ee;">Post New Assignment</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<script>
+  // Get the input element
+const input = document.getElementById('id_hourly_rate');
+
+// Add an event listener to the input element
+input.addEventListener('input', function(e) {
+  // Get the input value
+  const value = e.target.value;
+  
+  // Check if the value is longer than 2 characters
+  if (value.length > 2) {
+    // If it is, remove any additional characters
+    e.target.value = value.slice(0, 2);
+  }
+});
+
+</script>
+
+{% endblock %}

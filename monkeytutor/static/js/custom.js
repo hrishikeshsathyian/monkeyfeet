@@ -1,3 +1,54 @@
+
+
+let autocomplete;
+
+function initAutoComplete(){
+autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('id_address'),
+    {
+        types: ['geocode', 'establishment'],
+        //default in this app is "SG" - add your country code
+        componentRestrictions: {'country': ['SG']},
+    })
+// function to specify what should happen when the prediction is clicked
+autocomplete.addListener('place_changed', onPlaceChanged);
+}
+
+function onPlaceChanged (){
+    var place = autocomplete.getPlace();
+
+    // User did not select the prediction. Reset the input field or alert()
+    if (!place.geometry){
+        document.getElementById('id_address').placeholder = "Start typing...";
+    }
+    else{
+        console.log('place name=>', place.name)
+    }
+    // get the address components and assign them to the fields
+    var geocoder= new google.maps.Geocoder()
+    var address = document.getElementById('id_address').value
+    geocoder.geocode({'address':address},function(results,status){
+        if(status==google.maps.GeocoderStatus.OK){
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+            $('#id_longitude').val(longitude)
+            $('#id_latitude').val(latitude)
+            $('#id_address').val(address)
+        }
+    });
+    for(var i=0; i<place.address_components.length; i++){
+        for(var j=0; j<place.address_components[i].types.length; j++){
+            if(place.address_components[i].types[j]=="postal_code"){
+                $('#id_zip_code').val(place.address_components[i].long_name)
+            }
+            
+        }
+        
+    }
+}
+
+
+
 $(document).ready(function(){
 
     // only show subjects based on whether primary or secondary is selected
@@ -45,3 +96,30 @@ $(document).ready(function(){
       });
 
   });
+
+
+  $(document).ready(function(){
+    $('.delete_assignment').on('click',function(e){
+        e.preventDefault()
+        assignment_id = $(this).attr('data-id');
+        url = $(this).attr('data-url');
+        data = {
+            assignment_id: assignment_id,
+        }
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data:data,
+            success: function(response){
+                console.log('Assignment ' + response.assignment + " has been deleted")
+                if(response.status=="SUCCESS"){
+                    document.getElementById(assignment_id).remove()
+                }
+
+            }
+            
+        })
+    })
+})
+
+
