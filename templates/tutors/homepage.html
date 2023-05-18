@@ -1,0 +1,146 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div>
+    <div class="container">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-lg-10 text-center">
+                <h1 style="text-shadow: 2px 2px 0px rgba(0,0,0,0.2)">The <strong>Hub</strong> Of <strong style='color: #4361ee;'>Singapore's Private Tuition</strong></h1>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="site-section  pb-0">
+    <div class="container">
+      <div class="row  align-items-stretch overlap justify-content-center">
+        <div class="col-10 mb-2">
+          <div class="box">
+            <div class="row d-flex align-items-start">
+              <div class="col-6 col-md-4 mb-3">
+                <div class="img img-fluid"><img src="{% if tutor.profile_picture %}{{tutor.profile_picture.url}}{% else %}{% static 'images/hero_bg.jpg'%}{% endif %}" class="img-fluid " alt="Image" 
+                  style="border: 5px solid #555;
+                    "></div>
+              </div>
+              
+              <div class="col-12 col-md-8">
+                <div class="text" style=" overflow-x: auto;">
+                  <p class="category mb-0">Tutor Profile</p>
+                  <h3 style="color:#4361ee;" >{{tutor.user.first_name|title}} {{tutor.user.last_name|title}}</h3>
+                  <table class="table text-wrap">
+                    
+                    <tbody>
+                      <tr>
+                        <th scope="row">Subjects</th>
+                        <td class="text-wrap">{% for subject in tutor.subjects.all %}{{subject}}, {% endfor %}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Address*</th>
+                        <td>{{tutor.address}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Contact*</th>
+                        <td>{{tutor.user.phone_number}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Email*</th>
+                        <td>{{tutor.user.email}}</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>              
+                  <p class="mb-0">
+                    <a href="#">
+                      <button class="btn btn-primary mb-2" style="background-color:#4361ee">Edit Profile Settings</button>
+                    </a>
+                  </p>
+                  <p class="meta">
+                    <span class="mr-2 mb-2"><small class="text-muted">* Sensitive information will only be disclosed to potential tutees once a match has been found for contact purposes</small></span>
+                    
+                  </p>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-10">
+          <div class="box small">
+            <h4 class="mb-2 text-center"  style="color: #4361ee;">  <b>Two Ways</b>  to Find a Tutee Now!</h4>
+            <div class="row">
+             
+              <div class="col-lg-6 mb-3 d-flex align-items-stretch">
+                <div class="card">
+                  <div class="card-body d-flex flex-column pt-0">
+                    <h5 class="card-title text-center"> 
+                      <div class="custom-pagination">
+                        <ul class="list-unstyled mb-0">
+                          <li><span>1</span></li>
+                        </ul>
+                      </div>
+                      <b>Search Through Assignments</b>
+                    </h5>
+                    <p class="card-text mb-4 text-center">The tutees on this app have posted assignments. Scroll through them and apply for those you feel that you would be a right fit for! Once you apply, your contact information will be disclosed to the tutee and they will be able to contact you if they are interested!</p>
+                    <a href="{% url 'tutor_assignments' %}" class="btn btn-primary mt-auto align-self-start mx-auto" style="background-color: #4361ee;">Get Started</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-6 mb-3 d-flex align-items-stretch">
+                <div class="card">
+                  <div class="card-body d-flex flex-column pt-0">
+                    <h5 class="card-title text-center">
+                      <div class="custom-pagination">
+                        <ul class="list-unstyled mb-0">
+                          <li><span>2</span></li>
+                        </ul>
+                      </div>
+                       <b>Search Through Requests</b> 
+                    </h5>
+                    <p class="card-text mb-4 text-center">Some tutees may have looked through your profile and decided you were a good fit! Check your requests tab to view the tutees that are interested in you. Their contact information will be disclosed to you so YOU can contact them for further arrangments! </p>
+                    <a href="#" class="btn btn-primary mt-auto align-self-start mx-auto" style="background-color: #4361ee;">Get Started</a>
+                  </div>
+                </div>
+              </div>
+              
+              
+            </div>
+            
+            
+          </div>
+        </div>
+    </div>
+  </div> 
+  <div class="site-section pt-0">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center my-5">
+          <div class="heading">
+            
+            <h2 style="color: #4361ee";>Sponsors of the Month</h2>
+            <span class="caption">Check out these other stellar sources of finding private tuition!</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <div class="testimonial-2">
+            <img src="{% static 'images/coming_soon_blue.jpg' %}" alt="Image" class="m-0 img-fluid mr-3">          </div>
+        </div>
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <div class="testimonial-2">
+            <img src="{% static 'images/coming_soon_blue.jpg' %}" alt="Image" class="m-0 img-fluid mr-3">          </div>
+        </div>
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <div class="testimonial-2">
+            <img src="{% static 'images/coming_soon_blue.jpg' %}" alt="Image" class="m-0 img-fluid mr-3">          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  
+
+
+{% endblock %}

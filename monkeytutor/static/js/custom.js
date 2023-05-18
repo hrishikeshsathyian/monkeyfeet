@@ -120,6 +120,30 @@ $(document).ready(function(){
             
         })
     })
+    
+})
+
+$(document).ready(function(){
+    $('.apply_for_assignment').on('click',function(e){
+        e.preventDefault()
+        assignment_id = $(this).attr('data-id');
+        url = $(this).attr('data-url');
+        data = {
+            assignment_id: assignment_id,
+        }
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data:data,
+            success: function(response){
+                location.reload()
+               
+
+            }
+            
+        })
+    })
+    
 })
 
 

@@ -1,7 +1,8 @@
 
 from django.db import models
 from accounts.models import User
-
+from django.contrib.gis.db import models as gismodels
+from django.contrib.gis.geos import Point
 # Create your models here.
 
 class Subject(models.Model):
@@ -49,6 +50,8 @@ class Student(models.Model):
     zip_code = models.CharField(max_length=6,blank=False,null=False)
     latitude = models.CharField(max_length=50,blank=True,null=False)
     longitude = models.CharField(max_length=50,blank=True,null=False)
+    location = gismodels.PointField(blank=True,null=True,srid=4326)
+
     dob = models.DateField(blank=False,null=True)
     # preferences
     subjects = models.ManyToManyField(Subject,blank=False)
@@ -64,3 +67,9 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.email
+    
+    def save(self,*args,**kwargs):
+        if self.latitude and self.longitude:
+            self.location = Point(float(self.longitude),float(self.latitude))
+            return super(Student,self).save(*args,**kwargs)
+        return super(Student,self).save(*args,**kwargs)

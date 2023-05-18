@@ -23,7 +23,7 @@ def login(request):
             if user.role == User.STUDENT:
                 return redirect('student_homepage')
             else:
-                pass # redirect to tutor homepage
+                return redirect('tutor_homepage')
             
         else:
             if User.objects.filter(email=email).exists(): # check if email exists
@@ -55,6 +55,7 @@ def register_tutor(request):
             tutor.save()
             send_account_activation_email(request,user)
             messages.success(request,'Tutor Account has successfully been created! Please click the link in your email to verify your account!')
+            return redirect('login')
     context = {
         'user_form': user_form,
         'tutor_form': tutor_form,

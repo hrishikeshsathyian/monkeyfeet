@@ -2,7 +2,7 @@
 
 Hi {{user.first_name}} {{user.last_name}},
 
-Thank you for signing up with MonkeyTutor as a {{user.role}} !
+Thank you for signing up with MonkeyTutor as a {% if user.role == 2 %}Student{% else %}Tutor{% endif %} !
 
 For security purposes, 
     Please click on the below link to confirm your registration and activate your account

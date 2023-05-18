@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'assignments',
     'tutors',
+    'django.contrib.gis',
+
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -85,7 +88,7 @@ WSGI_APPLICATION = 'monkeytutor.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
         "NAME": "monkeytutor",
         "USER": "postgres",
         "PASSWORD": "T0212343B",
@@ -155,3 +158,6 @@ DEFAULT_FROM_EMAIL = 'MonkeyTutor <hrishikeshsathyiancoding@gmail.com>'
 # values can be stored securely in the .env file
 
 
+os.environ['PATH'] = os.path.join(BASE_DIR, 'virtualenv\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
+os.environ['PROJ_LIB'] = os.path.join(BASE_DIR, 'virtualenv\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
+GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'virtualenv\Lib\site-packages\osgeo\gdal304.dll')

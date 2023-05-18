@@ -42,7 +42,7 @@
 
                 <div class="media-body">
                     <h6 class="media-title font-weight-semibold">
-                        Assignment Code: {{assignment.unique_id|truncatechars:8 }} || <span class="text-muted">{{assignment.subject}}</span>
+                        Assignment Code: {{assignment.unique_id|truncatechars:8 }}</span>
                         <span class="float-right">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash delete_assignment" data-id="{{assignment.unique_id}}" data-url="{% url 'delete_assignment' assignment.unique_id %}" viewBox="0 0 16 16">
                           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
@@ -52,10 +52,9 @@
                     </h6>
 
                     <ul class="list-inline list-inline-dotted mb-0 mb-lg-2">
-                        
-                        <li class="list-inline-item"><b style="font-weight: 640;">Location:</b> {{assignment.address}}</li>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Subject:</b> {{assignment.subject}}</li>
                         <br>
-                        <li class="list-inline-item"><b style="font-weight: 640;">Preferred Tutor Gender:</b> {{assignment.preferred_gender}}</li>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Location:</b> {{assignment.address}}</li>
                         <br>
                         <li class="list-inline-item"><b style="font-weight: 640;">Preferred Tutor Level:</b> {% for i in assignment.preferred_tutor_level.all %}{{i}}, {% endfor %}</li>
                         <br>
