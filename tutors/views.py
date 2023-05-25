@@ -10,6 +10,7 @@ from accounts.utils import send_assignment_application_email
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
+import sweetify
 # Create your views here.
 def homepage(request):
     tutor = Tutor.objects.get(user = request.user) # get logged in tutor
@@ -73,23 +74,24 @@ def assignments(request):
         
         for a in assignments:   
             a.kms = round(a.distance.km,2)       
-        try:
-            if request.GET.get('sort_by') == 'date_created':
-                assignments = assignments.order_by('created_at').annotate(distance=Distance('student__location',pnt))
-                for a in assignments:   
-                    a.kms = round(a.distance.km,2)
-                
-            elif request.GET.get('sort_by') == 'hourly_rate':
-                assignments = assignments.order_by('-hourly_rate').annotate(distance=Distance('student__location',pnt))
-                for a in assignments:   
-                    a.kms = round(a.distance.km,2)
-            elif request.GET.get('sort_by') == 'nearest':
-                assignments = assignments.order_by('distance').annotate(distance=Distance('student__location',pnt))
-                for a in assignments:   
-                    a.kms = round(a.distance.km,2)
-        except:
+        
+        if request.GET.get('sort_by') == 'date_created':
+            assignments = assignments.order_by('-created_at').annotate(distance=Distance('student__location',pnt))
+            for a in assignments:   
+                a.kms = round(a.distance.km,2)
+            
+        elif request.GET.get('sort_by') == 'hourly_rate':
+            assignments = assignments.order_by('-hourly_rate').annotate(distance=Distance('student__location',pnt))
+            for a in assignments:   
+                a.kms = round(a.distance.km,2)
+        elif request.GET.get('sort_by') == 'nearest':
+            assignments = assignments.order_by('distance').annotate(distance=Distance('student__location',pnt))
+            for a in assignments:   
+                a.kms = round(a.distance.km,2)
+        else:
             assignments = assignments.order_by('-created_at')
-
+            for a in assignments:   
+                a.kms = round(a.distance.km,2)
         
 
     context = {
@@ -109,8 +111,9 @@ def apply_for_assignment(request,unique_id):
                 student = assignment.student
                 user = request.user
                 print('pre-email')
-                send_assignment_application_email(request,user,student)
+                send_assignment_application_email(request,user,student,assignment,tutor)
                 print('post-email')
+                sweetify.success(request, 'Successfully Applied for Assignment! Your contact details have been shared with the student, Good Luck!',timer=9000)
                 return JsonResponse({'status':'SUCCESS','message':'Tutor Added to Applied','assignment':assignment.unique_id})
             else:
                 assignment.tutor.remove(Tutor.objects.get(user=request.user))

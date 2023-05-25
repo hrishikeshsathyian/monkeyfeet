@@ -100,25 +100,40 @@ $(document).ready(function(){
 
   $(document).ready(function(){
     $('.delete_assignment').on('click',function(e){
-        e.preventDefault()
-        assignment_id = $(this).attr('data-id');
-        url = $(this).attr('data-url');
-        data = {
-            assignment_id: assignment_id,
-        }
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data:data,
-            success: function(response){
-                console.log('Assignment ' + response.assignment + " has been deleted")
-                if(response.status=="SUCCESS"){
-                    document.getElementById(assignment_id).remove()
+        Swal.fire({
+            title: 'Are you sure you want to delete this assignment? All data will be erased!',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire('Assignment Deleted!', '', 'success')
+              e.preventDefault()
+                assignment_id = $(this).attr('data-id');
+                url = $(this).attr('data-url');
+                data = {
+                    assignment_id: assignment_id,
                 }
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data:data,
+                    success: function(response){
+                        console.log('Assignment ' + response.assignment + " has been deleted")
+                        if(response.status=="SUCCESS"){
+                            document.getElementById(assignment_id).remove()
+                        }
 
+                    }
+                    
+                })
+            } else if (result.isDenied) {
+              
             }
-            
-        })
+          })
+        
     })
     
 })

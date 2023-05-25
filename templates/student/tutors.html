@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-10 text-center">
+        <h3 style="
+        
+        text-shadow: 2px 2px 0px rgba(0,0,0,0.2)">Tutors</h3>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+              <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+            </svg>
+            Tutors
+           </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+              <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+            </svg>
+            Track Requested Tutors
+          </button>
+        </li>
+        
+        
+    </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="clearfix tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+          <div class="dropdown mt-1 mb-2 float-right">
+            <h6>Sort-By</h6>
+            <div class="row mr-2">
+              <div class="col-10 px-1">
+                <form action="{% url 'tutor_assignments'%}">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="sort_by" id = "sort_by">
+                  <option selected value="date_created">Date Created</option>
+                  <option value="nearest">Nearest to Me</option>
+                  <option value="hourly_rate">Hourly Rate</option>
+                  
+                </select>
+              </div>
+              <div class="col-2 px-0">
+                <button class="" type="submit" style="background-color: #4361ee;color: white;border-color: #4361ee;"> GO </button>
+              </div>
+            </form>
+            </div>
+           
+          </div>
+          
+          
+          {% if tutors %}
+          {% for tutor in tutors %}
+          <div class="card card-body col-lg-9 mb-1 mt-1" id="{{assignment.unique_id}}">
+            <div class="media">
+
+                <div class="media-body row align-items-end">
+                    <div class="col-10">
+                      <h6 class="media-title font-weight-semibold">
+                        <img src="{% if tutor.profile_picture %}{{ tutor.profile_picture.url }}{% else %}{% static 'images/hero_bg.jpg'%}{% endif %}" alt="..." class="img-thumbnail img-fluid" style="max-height: 50px;">
+                        {{tutor.user.first_name}} {{tutor.user.last_name}} || <span class="text-muted">XXX</span>
+                    </h6>
+
+                    <ul class="list-inline list-inline-dotted mb-0">
+                        
+                        <li class="list-inline-item"><b style="font-weight: 640;">Subjects:</b> {% for subject in tutor.subjects.all %}{% if subject in student.subjects.all %}<b>{{subject}}</b>, {% else%}{{subject}}, {% endif %}{% endfor %}</b> </li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Gender:</b> {{tutor.gender}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Tutor Level:</b> {{tutor.tutor_level}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Location:</b> {{tutor.address}} || <b>{{tutor.kms}}km away from you</b> </li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Qualification Information:</b> {{tutor.qualification_information}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Additional Information:</b> {{tutor.additional_information}}</li>
+
+
+
+                    </ul>
+                    </div>
+                    <div class="col-2">
+                      {% if student in tutor.students_applied.all %}
+                      <a href="#" data-id="{{tutor.id}}" data-url="#" class="btn btn-primary mt-auto float-right mx-auto mb-0" style="background-color: #2a6e35;">Requested</a>
+                      {% else %}
+                      <a href="#" data-id="{{tutor.id}}" data-url="#" class="btn btn-primary mt-auto float-right mx-auto mb-0" style="background-color: #4361ee;">Request Now</a>
+                      {% endif %}
+
+                    </div>
+
+                </div>
+
+                
+            </div>
+          </div>
+          {% endfor %}
+          {% else%}
+          <h6 class="mt-4">There are currently no available tutors that suit your profile settings! Head on over to profile settings to broaden your scope so that there will be more tutors available!</h6>
+          {% endif %}
+          
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class="clearfix tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+          {% if applied_tutors %}
+          {% for tutor in applied_tutors%}
+          <div class="card card-body col-lg-9 mb-1 mt-1" id="{{assignment.unique_id}}">
+            <div class="media">
+
+                <div class="media-body row align-items-end">
+                    <div class="col-10">
+                      <h6 class="media-title font-weight-semibold">
+                        <img src="{% if tutor.profile_picture %}{{ tutor.profile_picture.url }}{% else %}{% static 'images/hero_bg.jpg'%}{% endif %}" alt="..." class="img-thumbnail img-fluid" style="max-height: 50px;">
+                        {{tutor.user.first_name}} {{tutor.user.last_name}} || <span class="text-muted">XXX</span>
+                    </h6>
+
+                    <ul class="list-inline list-inline-dotted mb-0">
+                        
+                        <li class="list-inline-item"><b style="font-weight: 640;">Subjects:</b> {% for subject in tutor.subjects.all %}{% if subject in student.subjects.all %}<b>{{subject}}</b>, {% else%}{{subject}}, {% endif %}{% endfor %}</b> </li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Gender:</b> {{tutor.gender}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Tutor Level:</b> {{tutor.tutor_level}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Location:</b> {{tutor.address}} || <b>{{tutor.kms}}km away from you</b> </li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Qualification Information:</b> {{tutor.qualification_information}}</li>
+                        <br>
+                        <li class="list-inline-item"><b style="font-weight: 640;">Additional Information:</b> {{tutor.additional_information}}</li>
+
+
+
+                    </ul>
+                    </div>
+                    <div class="col-2">
+                      {% if student in tutor.students_applied.all %}
+                      <a href="#" data-id="{{tutor.id}}" data-url="#" class="btn btn-primary mt-auto float-right mx-auto mb-0" style="background-color: #2a6e35;">Requested</a>
+                      {% else %}
+                      <a href="#" data-id="{{tutor.id}}" data-url="#" class="btn btn-primary mt-auto float-right mx-auto mb-0" style="background-color: #4361ee;">Request Now</a>
+                      {% endif %}
+
+                    </div>
+
+                </div>
+
+                
+            </div>
+          </div>
+          {% endfor %}
+          {% else%}
+          <h6 class="mt-4">You currently have requested for <b>0</b> tutors. Head on over to the Tutors tab to request for one !</h6>
+          {% endif %}
+
+
+         
+        </div>          
+</div>
+
+{% endblock %}

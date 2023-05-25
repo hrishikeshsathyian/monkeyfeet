@@ -55,7 +55,7 @@ class TutorForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple
     ) # set to multiple select choice field
     qualification_information = forms.CharField(
-                    widget=forms.Textarea(attrs={'rows':4,'cols':15,'placeholder': 'Please include any information that you think will help boost your credibility as a tutor. e.g Current University Course, Past Experience'}))
+                    widget=forms.Textarea(attrs={'maxlength':150,'rows':4,'cols':15,'placeholder': 'Please include any information that you think will help boost your credibility as a tutor. e.g Current University Course, Past School, Past Experience'}))
     
     class Meta:
         model = Tutor 

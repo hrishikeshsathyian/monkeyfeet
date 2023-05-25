@@ -28,13 +28,15 @@ def send_account_activation_email(request,user):
     mail.send()
 
 
-def send_assignment_application_email(request,user,student):
+def send_assignment_application_email(request,user,student,assignment,tutor):
     from_email = settings.DEFAULT_FROM_EMAIL
     current_site = get_current_site(request)
     mail_subject = 'Application for Assignment'
     message = render_to_string('tutors/emails/send_assignment_application_email.html',{
         'user': user,
         'student': student,
+        'assignment': assignment,
+        'tutor':tutor,
         'domain': current_site,
         'uidb64': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': default_token_generator.make_token(user),

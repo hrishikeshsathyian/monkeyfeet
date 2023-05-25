@@ -20,7 +20,7 @@ class Tutor(models.Model):
     # credentials 
     subjects = models.ManyToManyField(Subject,blank=False)
     tutor_level = models.ForeignKey(TutorLevel,blank=False,on_delete=models.PROTECT,null=True)
-    qualification_information = models.TextField(max_length=500,blank=True,null=True)
+    qualification_information = models.TextField(max_length=200,blank=True,null=True)
     certificate_credential = models.FileField(upload_to='users/tutors/certificate',blank=True,null=False)
     is_verified = models.BooleanField(default=False)
     # additional details 
@@ -30,6 +30,8 @@ class Tutor(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    # student to tutor application 
+    students_applied = models.ManyToManyField(Student, related_name='applied_tutors')
 
     def __str__(self):
         return self.user.email

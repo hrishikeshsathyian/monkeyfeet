@@ -28,7 +28,7 @@
             <ul class="site-menu main-menu js-clone-nav ml-auto ">
               <li><a href="{% if user.role == 1 %}{% url 'student_homepage' %}{% else %}{% url 'tutor_homepage' %}{% endif %}" class="nav-link">Home</a></li>
               <li><a href="{% if user.role == 1 %}{% url 'assignments' %}{% else %}{% url 'tutor_assignments' %}{% endif %}" class="nav-link">Assignments</a></li>
-              <li><a href="testimonials.html" class="nav-link">Tutors</a></li>
+              <li><a href="{% if user.role == 1 %}{% url 'tutors' %}{% else %}{% url 'tutor_assignments' %}{% endif %}" class="nav-link">Tutors</a></li>
               <li><a href="{% if user.role == 1 %}{% url 'profile_settings' %}{% else %}{% url 'tutor_profile_settings' %}{% endif %}" class="nav-link">Profile Settings</a></li>
               <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
               <li><a href="{% url 'logout' %}" class="nav-link">Log Out</a></li>

@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Student
+from tutors.models import Tutor
 from accounts.forms import UserForm, StudentForm
 from assignments.forms import AssignmentForm
 from assignments.models import Assignment
 from django.contrib import messages
 from .utils import key_generator
+from django.db.models import Q
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.measure import D
+from django.contrib.gis.db.models.functions import Distance
+import sweetify
 # Create your views here.
 
 def homepage(request):
@@ -34,7 +40,7 @@ def assignments(request):
             assignment.save()
             assignment.preferred_tutor_level.set(val for val in student.preferred_tutor_level.all()) # sets many to many field
             assignment.save()
-            messages.success(request,'Assignment Created Successfully')
+            sweetify.success(request, 'Assignment successfully created! If any tutors apply, their contact information will be shared with you via email :)',timer=9000)
             return redirect('assignments')
         else:
             print(form.errors)
@@ -60,6 +66,31 @@ def delete_assignment(request,unique_id):
     else:
         return JsonResponse({'status':'Failed','message':'Invalid Request'})
    
+
+def tutors(request):
+
+    student = Student.objects.get(user=request.user)
+    applied_tutors = student.applied_tutors.all()
+    pnt = GEOSGeometry('POINT(%s %s)' %(student.longitude,student.latitude), srid=4326)
+    print(pnt)
+    print(student.address)
+    tutors = Tutor.objects.filter(subjects__in=student.subjects.all()).distinct()
+    tutors = tutors.filter(tutor_level__in=student.preferred_tutor_level.all()).distinct()
+    
+    if student.preferred_gender == 'NO PREFERENCE':
+        tutors = tutors.annotate(distance=Distance('location',pnt))
+    else:
+        tutors = tutors.filter(gender=student.preferred_gender).annotate(distance=Distance('location',pnt))
+    for t in tutors:   
+            t.kms = round(t.distance.km,2)    
+
+    print(tutors)
+    context = {
+        'tutors': tutors,
+        'student': student,
+        'applied_tutors': applied_tutors,
+    }
+    return render(request,'student/tutors.html',context)
 
 def profile_settings(request):
     student = Student.objects.get(user=request.user)

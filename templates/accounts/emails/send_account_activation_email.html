@@ -2,15 +2,19 @@
 
 Hi {{user.first_name}} {{user.last_name}},
 
-Thank you for signing up with MonkeyTutor as a {% if user.role == 2 %}Student{% else %}Tutor{% endif %} !
+Thank you for signing up with MonkeyTutor as a {% if user.role == 2 %}Student{% else %}Tutor{% endif %}! We look forward
+to helping you find a match in Private Tuition :)
 
-For security purposes, 
-    Please click on the below link to confirm your registration and activate your account
-    http://{{domain}}{% url 'activate' uidb64=uidb64 token=token %}
+
+Please click on the below link to verify and activate your account! You will not be able to log in into your account until your account has been activated!
+
+http://{{domain}}{% url 'activate' uidb64=uidb64 token=token %}
+
+
 
 
 Yours Truly,
-MonkeyTutor
+MonkeyTutor, The Hub of Singapore's Private Tuition
 
 {% endautoescape %}
 # security measure

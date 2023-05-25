@@ -45,9 +45,10 @@ INSTALLED_APPS = [
     'assignments',
     'tutors',
     'django.contrib.gis',
+    'sweetify',
 
 ]
-
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"

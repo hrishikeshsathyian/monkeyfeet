@@ -2,10 +2,21 @@
 
 Hi {{student.user.first_name}} {{student.user.last_name}},
 
-Someone is interested in applying for your assignment. The details are as such! You can also view his/her contact details on the website
+{{user.first_name}} is interested in applying for your assignment for {{assignment.subject}}! Below are the tutor details, more information can be found on your account at MonkeyTutor.
+
+
+ Tutor Name : {{user.first_name}} {{user.last_name}}
+ Tutor Number: {{user.phone_number}}
+ Tutor Email: {{user.email}}
+ Tutor Type: {{tutor.tutor_level}}
+ Tutor Qualification: {{tutor.qualification_information}}
+
+
+Please note that the above contact information has been sent on the premise that it would be used ONLY for you to further communication with the tutor. Any use of
+private information with malicious intent will dealt with seriously.
+
 
 Yours Truly,
 MonkeyTutor
 
 {% endautoescape %}
-# security measure

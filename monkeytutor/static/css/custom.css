@@ -17,3 +17,37 @@
     animation-duration: 8s;
     z-index:99;
 }
+
+ #swal2-title {
+  
+  padding: 17px;
+  display: block;
+  margin: 22px;
+  text-align: center;
+  color: #61534e;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+
+.swal2-styled.swal2-confirm {
+    background-color: #4361ee !important; 
+}
+
+.tooltip-inner {
+    background-color: #4361ee;
+    box-shadow: 0px 0px 4px black;
+    opacity: 1 !important;
+}
+.tooltip.bs-tooltip-right .tooltip-arrow::before {
+    border-right-color: #4361ee !important;
+}
+.tooltip.bs-tooltip-left .tooltip-arrow::before {
+    border-left-color: #4361ee !important;
+}
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: #4361ee !important;
+}
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: #4361ee !important;
+}

@@ -9,5 +9,7 @@ urlpatterns = [
         path('assignments',views.assignments,name='assignments'),
         path('delete_assignment/<uuid:unique_id>',views.delete_assignment,name='delete_assignment'),
         # PROFILE SETTINGS
-        path('profile_settings',views.profile_settings,name='profile_settings')
+        path('profile_settings',views.profile_settings,name='profile_settings'),
+        # TUTORS
+        path('tutors',views.tutors,name='tutors'),
     ]
